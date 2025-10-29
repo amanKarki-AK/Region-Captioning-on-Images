@@ -1,8 +1,8 @@
 # Region-Based Image Captioning
 
-This project is an implementation of the model described in the paper **"Deep Visual-Semantic Alignments for Generating Image Descriptions"** by Andrej Karpathy and Li Fei-Fei[cite: 4].
+This project is an implementation of the model described in the paper **"Deep Visual-Semantic Alignments for Generating Image Descriptions"** by Andrej Karpathy and Li Fei-Fei.
 
-The primary goal of this project is to build a model that can generate natural language descriptions for specific regions within an image[cite: 13]. [cite_start]To achieve this, the model learns the complex correspondences between segments of text and the visual data they describe.
+The primary goal of this project is to build a model that can generate natural language descriptions for specific regions within an image.To achieve this, the model learns the complex correspondences between segments of text and the visual data they describe.
 
 ## Overall Approach & Flow
 
