@@ -217,9 +217,7 @@ After the alignment model is trained, its learned embeddings are used to generat
 ## 📚 References
 
 1. Karpathy & Fei-Fei — *"Deep Visual-Semantic Alignments for Generating Image Descriptions"*, CVPR 2015.
-2. Ren et al. — *"Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks"*, NIPS 2015.
-3. Simonyan & Zisserman — *"Very Deep Convolutional Networks for Large-Scale Image Recognition"*, 2014.
-4. PyTorch Official Documentation — [https://pytorch.org](https://pytorch.org)
+2. PyTorch Official Documentation — [https://pytorch.org](https://pytorch.org)
 
 ---
 
