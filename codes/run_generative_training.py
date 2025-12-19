@@ -6,30 +6,21 @@ from torchvision import transforms
 import pickle
 import os
 
-# Import from our project files
 from vocabulary import Vocabulary
 from dataset import FlickrDataset, collate_fn
 from model import GenerativeEncoderCNN, DecoderMRNN
 from train import train_generative_epoch
 
 def main_generative():
-    """
-    Main function to run STAGE 2: Generative Model Training (MRNN)
-    """
-    
-    # -----------------
-    # Configuration
-    # -----------------
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    # Paths
-    image_dir = 'Project/data' # Root images folder
+    image_dir = 'Project/data'
     train_captions_file = 'Project/data/captions.txt'
     vocab_path = 'Project/data/vocab.pkl'
     model_save_dir = 'Project/models'
-    
-    # Hyperparameters
+
     embed_size = 512
     hidden_size = 512
     num_epochs = 75
@@ -37,10 +28,7 @@ def main_generative():
     learning_rate = 0.003
 
     os.makedirs(model_save_dir, exist_ok=True)
-    
-    # -----------------
-    # Load Data
-    # -----------------
+
     print("Loading vocabulary...")
     with open(vocab_path, 'rb') as f:
         vocab = pickle.load(f)
@@ -68,20 +56,14 @@ def main_generative():
         collate_fn=collate_fn
     )
 
-    # -----------------
-    # Initialize Models
-    # -----------------
+  
     print("Initializing generative models...")
     encoder = GenerativeEncoderCNN(embed_size).to(device)
     decoder = DecoderMRNN(embed_size, hidden_size, len(vocab)).to(device)
     
-    # --- CRITICAL: Freeze ResNet part of encoder ---
-    # We only want to train the new fc and bn layers
     for param in encoder.resnet.parameters():
         param.requires_grad = False
     
-    # Optimizer
-    # We optimize decoder params + the *trainable* encoder params
     trainable_params = list(decoder.parameters()) + \
                        list(encoder.fc.parameters()) + \
                        list(encoder.bn.parameters())
@@ -91,9 +73,6 @@ def main_generative():
     # Loss function
     criterion = nn.CrossEntropyLoss()
 
-    # -----------------
-    # Training Loop
-    # -----------------
     print("--- Starting Generative Training (Stage 2) ---")
     for epoch in range(1, num_epochs + 1):
         print(f"\nEpoch {epoch}/{num_epochs}")
@@ -108,8 +87,7 @@ def main_generative():
         )
         
         print(f"Epoch {epoch} Average Loss: {avg_loss:.4f}")
-        
-        # Save models periodically
+
         if epoch % 5 == 0:
             print(f"Saving models for epoch {epoch}...")
             torch.save(encoder.state_dict(), os.path.join(model_save_dir, f'gen_encoder_cnn-{epoch}.pth'))

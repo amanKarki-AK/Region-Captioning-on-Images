@@ -5,7 +5,6 @@ from collections import Counter
 from tqdm import tqdm
 
 class Vocabulary:
-    """Simple Vocabulary wrapper"""
     def __init__(self):
         self.word2idx = {}
         self.idx2word = {}
@@ -30,13 +29,6 @@ class Vocabulary:
         return len(self.word2idx)
 
 def build_vocab(captions_file, threshold):
-    """
-    Build a simple vocabulary wrapper.
-    
-    Args:
-        captions_file (str): Path to the CSV file with 'caption' column.
-        threshold (int): Minimum word count threshold.
-    """
     df = pd.read_csv(captions_file)
     counter = Counter()
     
@@ -49,10 +41,8 @@ def build_vocab(captions_file, threshold):
         except Exception as e:
             print(f"Skipping caption: {row.get('caption')}. Error: {e}")
 
-    # Filter words below threshold
     words = [word for word, cnt in counter.items() if cnt >= threshold]
 
-    # Create a vocab wrapper and add the words
     vocab = Vocabulary()
     print(f"Building vocabulary... (Threshold: {threshold})")
     for word in tqdm(words):
@@ -61,14 +51,10 @@ def build_vocab(captions_file, threshold):
     return vocab
 
 if __name__ == '__main__':
-    # This script can be run to build the vocabulary
-    
-    # --- Configuration ---
-    # Update these paths
+
     captions_file = 'Project/data/captions.txt'
     vocab_path = 'Project/data/vocab.pkl'
     threshold = 5
-    # ---------------------
 
     print(f"Building vocab from: {captions_file}")
     vocab = build_vocab(captions_file, threshold=threshold)

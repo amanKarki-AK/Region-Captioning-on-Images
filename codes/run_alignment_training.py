@@ -6,30 +6,21 @@ from torchvision import transforms
 import pickle
 import os
 
-# Import from our project files
 from vocabulary import Vocabulary
 from dataset import FlickrDataset, collate_fn
 from model import AlignmentEncoderCNN, AlignmentDecoderRNN
 from train import train_alignment_epoch
 
 def main_alignment():
-    """
-    Main function to run STAGE 1: Alignment Model Training
-    """
-    
-    # -----------------
-    # Configuration
-    # -----------------
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    # Paths
-    image_dir = 'Project/data' # Root images folder
+    image_dir = 'Project/data'
     train_captions_file = 'Project/data/captions.txt'
     vocab_path = 'Project/data/vocab.pkl'
     model_save_dir = 'Project/models'
     
-    # Hyperparameters
     embed_size = 512
     hidden_size = 512
     num_epochs = 45
@@ -38,9 +29,7 @@ def main_alignment():
 
     os.makedirs(model_save_dir, exist_ok=True)
     
-    # -----------------
-    # Load Data
-    # -----------------
+    # Load Vocab
     print("Loading vocabulary...")
     with open(vocab_path, 'rb') as f:
         vocab = pickle.load(f)
@@ -68,21 +57,14 @@ def main_alignment():
         collate_fn=collate_fn
     )
 
-    # -----------------
-    # Initialize Models
-    # -----------------
     print("Initializing alignment models...")
     image_encoder = AlignmentEncoderCNN(embed_size).to(device)
     text_encoder = AlignmentDecoderRNN(embed_size, hidden_size, len(vocab)).to(device)
-    
-    # Optimizer
+   
     # Combine parameters from both encoders
     params = list(image_encoder.parameters()) + list(text_encoder.parameters())
     optimizer = optim.Adam(params, lr=learning_rate)
 
-    # -----------------
-    # Training Loop
-    # -----------------
     print("--- Starting Alignment Training (Stage 1) ---")
     for epoch in range(1, num_epochs + 1):
         print(f"\nEpoch {epoch}/{num_epochs}")
@@ -97,7 +79,6 @@ def main_alignment():
         
         print(f"Epoch {epoch} Average Loss: {avg_loss:.4f}")
         
-        # Save models periodically
         if epoch % 5 == 0:
             print(f"Saving models for epoch {epoch}...")
             torch.save(image_encoder.state_dict(), os.path.join(model_save_dir, f'align_encoder_cnn-{epoch}.pth'))

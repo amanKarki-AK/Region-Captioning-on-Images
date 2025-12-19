@@ -7,7 +7,6 @@ from PIL import Image
 
 class FlickrDataset(Dataset):
     """
-    Flickr Dataset for Image Captioning.
     Reads data based on the specified file structure:
     - root_dir/
       - Images/ (all.jpg images)
@@ -52,12 +51,7 @@ class FlickrDataset(Dataset):
         caption_vec.extend([self.vocab(token) for token in tokens])
         caption_vec.append(self.vocab('<end>'))
         target = torch.Tensor(caption_vec)
-        
-        # For the alignment stage, the paper uses region features.
-        # Your current setup passes the full image for both stages.
-        # We will stick to your setup for simplicity.
-        # 'image' will be used by the encoder (either alignment or generative)
-        
+                
         return image, target
 
 def collate_fn(data):

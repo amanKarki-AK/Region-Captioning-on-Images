@@ -10,7 +10,6 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from PIL import Image
 
-# Import from our other project files
 from dataset import FlickrDataset, collate_fn
 from vocabulary import Vocabulary
 from model import GenerativeEncoderCNN, DecoderMRNN
@@ -27,7 +26,6 @@ def format_for_coco_eval(captions_df, generated_captions):
     Returns:
         tuple: (path_to_ground_truth_json, path_to_results_json)
     """
-    # --- Create Ground Truth Annotation File ---
     annotations = []
     images_info = []
     img_id_map = {} # Maps image filename to integer ID
@@ -55,8 +53,6 @@ def format_for_coco_eval(captions_df, generated_captions):
         'type': 'captions'
     }
     
-    # --- Create Results File ---
-    # We need to map our generated captions to the *same integer IDs*
     print("Formatting generated captions...")
     results = []
     for gen_cap in generated_captions:
@@ -69,7 +65,7 @@ def format_for_coco_eval(captions_df, generated_captions):
         else:
             print(f"Warning: Image file {img_name} from results not found in ground truth map.")
 
-    # --- Save JSON files ---
+    # Saving JSON files
     eval_dir = 'evaluation'
     os.makedirs(eval_dir, exist_ok=True)
     
@@ -88,15 +84,13 @@ def run_evaluation():
     Main function to run evaluation.
     Generates captions for a test set and computes COCO metrics.
     """
-    # -----------------
     # Configuration
-    # -----------------
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    # Paths (update these)
+    # Paths
     data_root = 'data'
-    test_captions_file = 'data/test_captions.txt' # Create this file for your test set
+    test_captions_file = 'data/test_captions.txt'
     image_dir = os.path.join(data_root, 'Images')
     vocab_path = 'data/vocab.pkl'
     encoder_path = 'models/gen_encoder_cnn.pth'
@@ -106,9 +100,8 @@ def run_evaluation():
     embed_size = 512
     hidden_size = 512
 
-    # -----------------
     # Load Vocabulary
-    # -----------------
+
     print(f"Loading vocabulary from {vocab_path}...")
     try:
         with open(vocab_path, 'rb') as f:
@@ -117,9 +110,8 @@ def run_evaluation():
         print(f"Error: Vocabulary file not found at {vocab_path}")
         return
 
-    # -----------------
-    # Load Models (Generative)
-    # -----------------
+    # Load Generative models
+ 
     print("Loading generative models...")
     gen_encoder_cnn = GenerativeEncoderCNN(embed_size).to(device)
     decoder_mrnn = DecoderMRNN(embed_size, hidden_size, len(vocab)).to(device)
@@ -134,11 +126,8 @@ def run_evaluation():
     gen_encoder_cnn.eval()
     decoder_mrnn.eval()
 
-    # -----------------
     # Load Test Data
-    # -----------------
-    # Note: For evaluation, we only need the list of *unique test images*.
-    # We will use the *ground truth* captions file for the COCO tool.
+
     try:
         captions_df = pd.read_csv(test_captions_file)
         test_image_files = captions_df['image'].unique()
@@ -149,9 +138,8 @@ def run_evaluation():
         
     print(f"Found {len(test_image_files)} unique images in test set.")
 
-    # -----------------
     # Generate Captions for Test Set
-    # -----------------
+
     generated_captions = []
     print("Generating captions for test set...")
     
@@ -159,7 +147,7 @@ def run_evaluation():
         img_path = os.path.join(image_dir, img_file)
         try:
             image_pil = load_image(img_path)
-            # Generate a *full image* caption
+            
             caption = caption_image(image_pil, gen_encoder_cnn, decoder_mrnn, vocab, device)
             generated_captions.append({
                 'image_file': img_file,
@@ -170,14 +158,12 @@ def run_evaluation():
         except Exception as e:
             print(f"Error processing {img_file}: {e}")
 
-    # -----------------
     # Format for COCO
-    # -----------------
+
     ann_file, res_file = format_for_coco_eval(captions_df, generated_captions)
 
-    # -----------------
     # Run COCO Evaluation
-    # -----------------
+
     print("Running COCO evaluation...")
     coco = COCO(ann_file)
     coco_res = coco.loadRes(res_file)

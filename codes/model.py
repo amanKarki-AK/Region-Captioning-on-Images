@@ -5,10 +5,6 @@ from torchvision.models.detection import fasterrcnn_resnet50_fpn
 import torchvision.models as models
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
-# ----------------------------------------------------------------------------
-# Region Detector (Modified to replace YOLO)
-# ----------------------------------------------------------------------------
-
 class FasterRCNNRegionDetector(nn.Module):
     """
     Faster R-CNN based region detector.
@@ -18,28 +14,18 @@ class FasterRCNNRegionDetector(nn.Module):
     def __init__(self, confidence_threshold=0.5):
         super(FasterRCNNRegionDetector, self).__init__()
         self.confidence_threshold = confidence_threshold
-        
-        # Load pre-trained Faster R-CNN model
         self.model = fasterrcnn_resnet50_fpn(weights=torchvision.models.detection.FasterRCNN_ResNet50_FPN_Weights.DEFAULT)
-        
-        # Set to evaluation mode
         self.model.eval()
 
     def forward(self, image_tensor):
-        """
-        Forward pass.
-        
-        Args:
-            image_tensor (torch.Tensor): A single image tensor [C, H, W].
-            
-        Returns:
-            torch.Tensor: Filtered bounding boxes [N, 4] where N is
-                          the number of boxes found.
-        """
+        """ 
+        Args : image_tensor (torch.Tensor): A single image tensor [C, H, W]   
+        Returns : torch.Tensor: Filtered bounding boxes [N, 4] where N is the number of boxes found
+         """
         if image_tensor.dim() != 3:
             raise ValueError(f"Expected a 3D tensor [C, H, W], but got {image_tensor.shape}")
 
-        # The model expects a list of tensors
+        # model expects a list of tensors
         with torch.no_grad():
             detections = self.model([image_tensor])
         
@@ -55,9 +41,7 @@ class FasterRCNNRegionDetector(nn.Module):
         
         return filtered_boxes
 
-# ----------------------------------------------------------------------------
-# Alignment Models (As per Karpathy paper)
-# ----------------------------------------------------------------------------
+# Alignment Models
 
 class AlignmentEncoderCNN(nn.Module):
     """
@@ -72,9 +56,7 @@ class AlignmentEncoderCNN(nn.Module):
         super(AlignmentEncoderCNN, self).__init__()
         vgg = models.vgg19(weights=models.VGG19_Weights.DEFAULT)
         self.cnn = nn.Sequential(*list(vgg.features.children()))
-        # VGG features are 512-dim. We need to adapt.
-        # This part depends heavily on how you process regions.
-        # Assuming we adaptively pool the features of *regions*
+        
         self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
         self.fc = nn.Linear(vgg.classifier[0].in_features , embed_size)
         self.init_weights()
@@ -89,17 +71,12 @@ class AlignmentEncoderCNN(nn.Module):
         features = torch.flatten(features, 1)
         features = self.fc(features)
         
-        # L2-normalize features
+        # Normalize features
         features = features / torch.norm(features, p=2, dim=1, keepdim=True)
         return features
 
 
 class AlignmentDecoderRNN(nn.Module):
-    """
-    Decoder (RNN) for the alignment model.
-    Takes a sentence, passes it through GRU,
-    and applies linear layer to get to embed_size.
-    """
     def __init__(self, embed_size, hidden_size, vocab_size, num_layers=1):
         super(AlignmentDecoderRNN, self).__init__()
         self.embed = nn.Embedding(vocab_size, embed_size)
@@ -116,7 +93,6 @@ class AlignmentDecoderRNN(nn.Module):
         embeddings = self.embed(captions)
         packed = pack_padded_sequence(embeddings, lengths, batch_first=True, enforce_sorted=False)
         
-        # We don't need the hidden state, just the outputs
         outputs, _ = self.gru(packed)
         
         # Unpack and get the last relevant output
@@ -142,7 +118,7 @@ class AlignmentDecoderRNN(nn.Module):
 class GenerativeEncoderCNN(nn.Module):
     """
     Encoder for the generative model.
-    Takes a *full image* and produces features.
+    Takes a full image and produces features.
     """
     def __init__(self, embed_size):
         super(GenerativeEncoderCNN, self).__init__()
@@ -213,7 +189,7 @@ class DecoderMRNN(nn.Module):
     def sample(self, features, vocab, max_length=20):
         """
         Generate a caption for a given image feature.
-        (Used during inference)
+        (Used for inference)
         """
         batch_size = features.size(0)
         
@@ -246,7 +222,6 @@ class DecoderMRNN(nn.Module):
                 # Get scores for next word
                 outputs = self.fc(lstm_out.squeeze(1)) # [batch_size, vocab_size]
                 
-                # Get the most likely word
                 predicted_ids = outputs.argmax(dim=1) # [batch_size]
                 caption_ids.append(predicted_ids)
                 
