@@ -10,17 +10,16 @@ Unlike traditional image captioning models that describe an entire image with a 
 
 ## Table of Contents
 
-- [Objective](#-objective)
-- [Approach](#-approach)
-- [Dataset and Preprocessing](#-dataset-and-preprocessing)
-- [Architecture Overview](#-architecture-overview)
-- [Alignment Model](#-alignment-model)
-- [Generative Model](#-generative-model)
-- [Training Strategy](#-training-strategy)
-- [Results](#-results)
-- [Applications](#-applications)
-- [Learning Outcomes](#-learning-outcomes)
-- [References](#-references)
+- [Objective](##-objective)
+- [Approach](##-approach)
+- [Dataset and Preprocessing](##-dataset-and-preprocessing)
+- [Architecture Overview](##-architecture-overview)
+- [Alignment Model](##-alignment-model)
+- [Generative Model](##-generative-model)
+- [Results](##-results)
+- [Applications](##-applications)
+- [Learning Outcomes](##-learning-outcomes)
+- [References](##-references)
 
 ---
 
