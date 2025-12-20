@@ -10,19 +10,20 @@ Unlike traditional image captioning models that describe an entire image with a 
 
 ## Table of Contents
 
-- [Objective](##objective)
-- [Approach](##approach)
-- [Dataset and Preprocessing](##dataset-and-preprocessing)
-- [Architecture Overview](##architecture-overview)
-- [Alignment Model](##alignment-model)
-- [Generative Model](##generative-model)
-- [Results](##results)
-- [Applications](##applications)
-- [Learning Outcomes](##learning-outcomes)
-- [References](##references)
+- [Objective](#objective)
+- [Approach](#approach)
+- [Dataset and preprocessing](#dataset-and-preprocessing)
+- [Architecture overview](#architecture-overview)
+- [Alignment model](#alignment-model)
+- [Generative model](#generative-model)
+- [Results](#results)
+- [Applications](#applications)
+- [Learning outcomes](#learning-outcomes)
+- [References](#references)
 
 ---
 
+<a id="objective"></a>
 ## Objective
 
 The goal of this project is to design and implement a deep learning-based **Region Captioning System** capable of automatically describing multiple regions within an image.
@@ -35,6 +36,7 @@ Unlike global captioning that summarizes the entire image, this system generates
 
 ---
 
+<a id="approach"></a>
 ## Approach
 
 The project follows a progressive learning and implementation pipeline:
@@ -55,7 +57,8 @@ The project follows a progressive learning and implementation pipeline:
 
 ---
 
-# Dataset and Preprocessing
+<a id="dataset-and-preprocessing"></a>
+## Dataset and Preprocessing
 
 ### Dataset
 
@@ -83,9 +86,8 @@ The project follows a progressive learning and implementation pipeline:
 
 ---
 
+<a id="architecture-overview"></a>
 ## Architecture Overview
-
-
 
 The model has two main stages:
 
@@ -103,6 +105,7 @@ Both → Shared Embedding Space → Caption Generation
 
 ---
 
+<a id="alignment-model"></a>
 ## Alignment Model
 
 ### Components
@@ -146,6 +149,7 @@ This ensures that correct image–caption pairs have higher similarity scores th
 
 ---
 
+<a id="generative-model"></a>
 ## Generative Model
 
 <img src="thumbnails/generative.png" width="600" />
@@ -160,11 +164,14 @@ After the alignment model is trained, its learned embeddings are used to generat
 ---
 
 
+<a id="results"></a>
 ## Results
+
 <img src="thumbnails/result_image.jpg" width="600" />
 
 ---
 
+<a id="applications"></a>
 ## Applications
 
 | Domain | Application |
@@ -177,6 +184,7 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 ---
 
+<a id="learning-outcomes"></a>
 ## Learning Outcomes
 
 - Gained hands-on experience in CNNs, RNNs, GRUs, and multimodal learning.
@@ -187,6 +195,7 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 ---
 
+<a id="references"></a>
 ## References
 
 1. Karpathy & Fei-Fei — *"[Deep Visual-Semantic Alignments for Generating Image Descriptions](https://arxiv.org/pdf/1412.2306)"*, CVPR 2015.
