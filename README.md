@@ -32,17 +32,7 @@ Unlike global captioning that summarizes the entire image, this system generates
 
 ### Example:
 
-<img src="image.png" width="300" />
-
-**Input:**  
-An image of a man riding a bicycle beside a dog.
-
-**Output:**
-- **Region 1** → "A man wearing a helmet"
-- **Region 2** → "A red bicycle"
-- **Region 3** → "A brown dog running"
-
-This enables detailed visual understanding, making it useful for retrieval, surveillance, and autonomous systems.
+<img src="thumbnails/expected.png" width="600" />
 
 ---
 
@@ -118,7 +108,7 @@ Both → Shared Embedding Space → Caption Generation
 
 ### Components
 
-<img src="image.png" width="300" />
+<img src="thumbnails/alignment.png" width="600" />
 
 
 #### Encoder (AlignmentEncoderCNN)
@@ -159,7 +149,7 @@ This ensures that correct image–caption pairs have higher similarity scores th
 
 ## Generative Model
 
-<img src="image.png" width="300" />
+<img src="thumbnails/generative.png" width="600" />
 
 
 After the alignment model is trained, its learned embeddings are used to generate captions for image regions.
@@ -172,7 +162,7 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 
 ## Results
-<img src="image.png" width="300" />
+<img src="thumbnails/result_image.jpg" width="600" />
 
 ---
 
@@ -200,7 +190,7 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 ## References
 
-1. Karpathy & Fei-Fei — *"Deep Visual-Semantic Alignments for Generating Image Descriptions"*, CVPR 2015.
+1. Karpathy & Fei-Fei — *"[Deep Visual-Semantic Alignments for Generating Image Descriptions](https://arxiv.org/pdf/1412.2306)"*, CVPR 2015.
 2. PyTorch Official Documentation — [https://pytorch.org](https://pytorch.org)
 
 ---
