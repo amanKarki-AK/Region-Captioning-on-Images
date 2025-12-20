@@ -195,11 +195,6 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 ---
 
-## Final Note
-
-This project integrates vision and language through a shared multimodal space — enabling the system to **see, understand, and describe** image regions in natural language.
-
----
 
 ## 👥 Collaborators
 
