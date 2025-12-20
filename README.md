@@ -1,6 +1,6 @@
-# 🧠 Region Captioning using Multimodal Deep Learning
+# Region Captioning using Multimodal Deep Learning
 
-## 📖 Overview
+## Overview
 
 This project implements a **Region Captioning System** that bridges the gap between Computer Vision and Natural Language Processing using Deep Learning.
 
@@ -8,7 +8,7 @@ Unlike traditional image captioning models that describe an entire image with a 
 
 ---
 
-## 🧭 Table of Contents
+## Table of Contents
 
 - [Objective](#-objective)
 - [Approach](#-approach)
@@ -24,13 +24,15 @@ Unlike traditional image captioning models that describe an entire image with a 
 
 ---
 
-## 🎯 Objective
+## Objective
 
 The goal of this project is to design and implement a deep learning-based **Region Captioning System** capable of automatically describing multiple regions within an image.
 
 Unlike global captioning that summarizes the entire image, this system generates **localized captions** that describe individual objects or regions — such as *"a man wearing a helmet"* or *"a dog running on the road."*
 
-### 📸 Example:
+### Example:
+
+<img src="image.png" width="300" />
 
 **Input:**  
 An image of a man riding a bicycle beside a dog.
@@ -44,7 +46,7 @@ This enables detailed visual understanding, making it useful for retrieval, surv
 
 ---
 
-## ⚙️ Approach
+## Approach
 
 The project follows a progressive learning and implementation pipeline:
 
@@ -64,16 +66,14 @@ The project follows a progressive learning and implementation pipeline:
 
 ---
 
-## 🧾 Dataset and Preprocessing
+# Dataset and Preprocessing
 
-### 📂 Dataset
+### Dataset
 
 - **Source:** Flickr30k Entities (an extension of Flickr8k/30k)
-- Each image contains:
-  - Bounding box coordinates for regions
-  - Associated textual descriptions (phrases or sentences)
+- The Flickr30k dataset contains about 31,000 real-world images, each paired with 5 human-written English captions describing the scene.
 
-### 🧰 Preprocessing Pipeline
+### Preprocessing Pipeline
 
 #### 1. Parsing
 - Extracted image paths, captions, and bounding box coordinates from annotations.
@@ -94,7 +94,9 @@ The project follows a progressive learning and implementation pipeline:
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
+
+
 
 The model has two main stages:
 
@@ -112,9 +114,12 @@ Both → Shared Embedding Space → Caption Generation
 
 ---
 
-## 🔗 Alignment Model
+## Alignment Model
 
-### 🧩 Components
+### Components
+
+<img src="image.png" width="300" />
+
 
 #### Encoder (AlignmentEncoderCNN)
 - Based on **VGG-19**, pre-trained on ImageNet.
@@ -129,11 +134,11 @@ Both → Shared Embedding Space → Caption Generation
 - The final GRU hidden state represents the sentence meaning.
 - Also **L2-normalized** for cosine similarity computation.
 
-### 📖 Intuitive Explanation
+### Intuitive Explanation
 
 The alignment model learns a shared space where visually similar regions and semantically similar text lie close together. If a caption describes a region (e.g., "a brown dog"), their embeddings align closely in this space.
 
-### 🔢 Mathematical Formulation
+### Mathematical Formulation
 
 **Image–Sentence Matching Score:**
 
@@ -152,7 +157,10 @@ This ensures that correct image–caption pairs have higher similarity scores th
 
 ---
 
-## 🧠 Generative Model
+## Generative Model
+
+<img src="image.png" width="300" />
+
 
 After the alignment model is trained, its learned embeddings are used to generate captions for image regions.
 
@@ -162,49 +170,25 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 ---
 
-## 🧮 Training Strategy
 
-| Component | Configuration |
-|-----------|---------------|
-| Optimizer | Adam |
-| Learning Rate | 1e-4 |
-| Batch Size | 64 |
-| Normalization | L2 on visual & textual embeddings |
-| Loss (Alignment) | Max-Margin Ranking Loss |
-| Loss (Generation) | Cross-Entropy |
-| Framework | PyTorch |
+## Results
+<img src="image.png" width="300" />
 
 ---
 
-## 📈 Results
-
-| Metric | Description | Observation |
-|--------|-------------|-------------|
-| Alignment Accuracy | Correct region–text matching | ↑ Significant improvement over baseline |
-| BLEU-4 Score | Caption generation quality | ↑ Competitive with research benchmarks |
-| Inference Speed | Region captioning per image | Achieved near real-time performance on GPU |
-
-### 🖼️ Qualitative Results:
-
-- **Region 1** → "Woman holding an umbrella"
-- **Region 2** → "Dog sitting on grass"
-- **Region 3** → "Child playing with ball"
-
----
-
-## 🌍 Applications
+## Applications
 
 | Domain | Application |
 |--------|-------------|
-| 🧩 Autonomous Systems | Scene understanding for perception & navigation |
-| 🩺 Medical Imaging | Describing localized anatomical regions |
-| 🕵️ Surveillance | Detecting and describing activities in CCTV frames |
-| 🖼️ Image Retrieval | Text-based search for image regions |
-| 🦾 Assistive Tech | Scene narration for visually impaired users |
+| Autonomous Systems | Scene understanding for perception & navigation |
+| Medical Imaging | Describing localized anatomical regions |
+| Surveillance | Detecting and describing activities in CCTV frames |
+| Image Retrieval | Text-based search for image regions |
+| Assistive Tech | Scene narration for visually impaired users |
 
 ---
 
-## 🎓 Learning Outcomes
+## Learning Outcomes
 
 - Gained hands-on experience in CNNs, RNNs, GRUs, and multimodal learning.
 - Learned PyTorch for end-to-end model implementation.
@@ -214,17 +198,33 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 ---
 
-## 📚 References
+## References
 
 1. Karpathy & Fei-Fei — *"Deep Visual-Semantic Alignments for Generating Image Descriptions"*, CVPR 2015.
 2. PyTorch Official Documentation — [https://pytorch.org](https://pytorch.org)
 
 ---
 
-## ✅ Final Note
+## Final Note
 
 This project integrates vision and language through a shared multimodal space — enabling the system to **see, understand, and describe** image regions in natural language.
 
 ---
 
-**Made with ❤️ and Deep Learning**
+## 👥 Collaborators
+
+
+<a href="https://github.com/amanKarki-AK">
+  <img src="https://github.com/amanKarki-AK.png" width="45" style="vertical-align:middle" />
+  <strong> amanKarki-AK </strong>
+</a>
+<br />
+<a href="https://github.com/Ritikavarshney-hub">
+  <img src="https://github.com/Ritikavarshney-hub.png" width="45" style="vertical-align:middle" />
+  <strong> Ritikavarshney-hub </strong>
+</a>
+<br />
+<a href="https://github.com/nidhi-059">
+  <img src="https://github.com/nidhi-059.png" width="45" style="vertical-align:middle" />
+  <strong> nidhi-059 </strong>
+</a>nidhi-059
