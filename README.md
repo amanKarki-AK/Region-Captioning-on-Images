@@ -169,6 +169,8 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 <img src="thumbnails/result_image.jpg" width="600" />
 
+- This is the link to our trained models → [**Models**](https://drive.google.com/drive/folders/1H4nR-iftoYyXA3hfUFHXRoFOhuikjqiw?usp=sharing)
+
 ---
 
 <a id="applications"></a>
