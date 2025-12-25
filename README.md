@@ -211,15 +211,15 @@ After the alignment model is trained, its learned embeddings are used to generat
 
 <a href="https://github.com/amanKarki-AK">
   <img src="https://github.com/amanKarki-AK.png" width="35" style="vertical-align:middle" />
-  <strong> amanKarki-AK </strong>
+  <strong> Aman Karki </strong>
 </a>
 <br />
 <a href="https://github.com/Ritikavarshney-hub">
   <img src="https://github.com/Ritikavarshney-hub.png" width="35" style="vertical-align:middle" />
-  <strong> Ritikavarshney-hub </strong>
+  <strong> Ritika Varshney</strong>
 </a>
 <br />
 <a href="https://github.com/nidhi-059">
   <img src="https://github.com/nidhi-059.png" width="35" style="vertical-align:middle" />
-  <strong> nidhi-059 </strong>
+  <strong> Nidhi Soni </strong>
 </a>
